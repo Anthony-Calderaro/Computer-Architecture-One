@@ -5,6 +5,10 @@
  const LDI = 0b10011001;
  const PRN = 0b01000011;
  const HLT = 0b00000001;
+ const MUL = 0b10101010;
+
+ const RAM = require('./ram.js');
+
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -79,22 +83,23 @@ class CPU {
     
         // Get the two bytes in memory _after_ the PC in case the instruction
         // needs them.
-        const operandA = this.ram.read(this.PC + 1);
-        const operandB = this.ram.read(this.PC + 2);
-        
-        // !!! IMPLEMENT ME
+        const operandA = this.ram.read(this.PC + 1); 
+        const operandB = this.ram.read(this.PC + 2); 
 
-        // Execute the instruction. Perform the actions for the instruction as
-        // outlined in the LS-8 spec.
-
+    
         switch(IR) {
             case LDI:
                 this.reg[operandA] = operandB;
                 this.PC += 3;
                 break;
+
+            case MUL:
+                this.reg = this.reg[0] *  this.reg[1];
+                this.PC += 3;
+                break;
             
             case PRN:
-                console.log(this.reg[operandA]);
+                console.log(this.reg);
                 this.PC += 2;
                 break;
 
@@ -102,7 +107,7 @@ class CPU {
                 this.stopClock();
                 this.PC += 1;
                 break;
-                
+
             default:
                 console.log('unknown: ' + IR.toString(2));
                 this.stopClock();
