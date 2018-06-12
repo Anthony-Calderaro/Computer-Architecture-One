@@ -7,7 +7,6 @@
  const HLT = 0b00000001;
  const MUL = 0b10101010;
 
- const RAM = require('./ram.js');
 
 
 /**

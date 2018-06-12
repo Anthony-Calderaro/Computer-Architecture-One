@@ -353,7 +353,7 @@ Machine code:
 10011000 00000aaa 00000bbb
 ```
 
-### LDI
+### LDI 
 
 `LDI register immediate`
 

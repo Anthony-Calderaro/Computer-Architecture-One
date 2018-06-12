@@ -17,7 +17,7 @@
 const fs = require('fs');
 const readline = require('readline');
 
-// Process command line
+// Processnode  command line
 
 const args = process.argv.slice(2);
 let input, output;
