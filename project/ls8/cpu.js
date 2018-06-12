@@ -98,6 +98,11 @@ class CPU {
                 this.PC += 2;
                 break;
 
+            case HLT:
+                this.stopClock();
+                this.PC += 1;
+                break;
+                
             default:
                 console.log('unknown: ' + IR.toString(2));
                 this.stopClock();
