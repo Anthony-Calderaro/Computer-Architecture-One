@@ -2,6 +2,10 @@
  * LS-8 v2.0 emulator skeleton code
  */
 
+ const LDI = 0b10011001;
+ const PRN = 0b01000011;
+ const HLT = 0b00000001;
+
 /**
  * Class for simulating a simple Computer (CPU & memory)
  */
@@ -70,18 +74,35 @@ class CPU {
         // right now.)
 
         // !!! IMPLEMENT ME
+        const IR = this.ram.read(this.PC);
 
-        // Debugging output
-        //console.log(`${this.PC}: ${IR.toString(2)}`);
-
+    
         // Get the two bytes in memory _after_ the PC in case the instruction
         // needs them.
-
+        const operandA = this.ram.read(this.PC + 1);
+        const operandB = this.ram.read(this.PC + 2);
+        
         // !!! IMPLEMENT ME
 
         // Execute the instruction. Perform the actions for the instruction as
         // outlined in the LS-8 spec.
 
+        switch(IR) {
+            case LDI:
+                this.reg[operandA] = operandB;
+                this.PC += 3;
+                break;
+            
+            case PRN:
+                console.log(this.reg[operandA]);
+                this.PC += 2;
+                break;
+
+            default:
+                console.log('unknown: ' + IR.toString(2));
+                this.stopClock();
+                return;
+        }
         // !!! IMPLEMENT ME
 
         // Increment the PC register to go to the next instruction. Instructions
