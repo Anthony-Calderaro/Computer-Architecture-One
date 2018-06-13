@@ -6,8 +6,12 @@
  const PRN = 0b01000011;
  const HLT = 0b00000001;
  const MUL = 0b10101010;
+ const PUS = 0b01001101;
+ const POP = 0b01001100;
 
-
+let SP = 0x07;
+// let IS = 0x06;
+// let IM = 0x05;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -24,6 +28,8 @@ class CPU {
         
         // Special-purpose registers
         this.PC = 0; // Program Counter
+        this.reg[SP] = 0xf4 // Point register 7 to register 4 which is empty
+
     }
     
     /**
@@ -48,6 +54,16 @@ class CPU {
     stopClock() {
         clearInterval(this.clock);
     }
+    Push(operand){
+        this.reg[SP] --;
+        this.poke(this.reg[SP], this.reg[operand]);
+    };
+
+    Pop(operand) {
+        this.reg[SP] = this.ram.read(this.reg[SP])
+        this.reg[SP] ++;
+    };
+
 
     /**
      * ALU functionality
@@ -107,11 +123,8 @@ class CPU {
                 this.PC += 1;
                 break;
 
-            default:
-                console.log('unknown: ' + IR.toString(2));
-                this.stopClock();
-                return;
-        }
+            case 
+ 
         // !!! IMPLEMENT ME
 
         // Increment the PC register to go to the next instruction. Instructions
@@ -119,6 +132,12 @@ class CPU {
         // instruction byte tells you how many bytes follow the instruction byte
         // for any particular instruction.
         
+
+\
+    //         +    POP(operand) {
+    //         +        this.reg[operand] = this.ram.read(this.SP);
+    //         +        this.SP++;
+
         // !!! IMPLEMENT ME
     }
 }
