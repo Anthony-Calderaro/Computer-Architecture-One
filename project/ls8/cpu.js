@@ -6,9 +6,12 @@
  const PRN = 0b01000011;
  const HLT = 0b00000001;
  const MUL = 0b10101010;
- const PUS = 0b01001101;
+ const PUSH = 0b01001101;
  const POP = 0b01001100;
+ const CALL = 0b01001000;
+ const RET = 0b00001001;
 
+ 
 let SP = 0x07;
 // let IS = 0x06;
 // let IM = 0x05;
@@ -47,24 +50,12 @@ class CPU {
             this.tick();
         }, 1); // 1 ms delay == 1 KHz clock == 0.000001 GHz
     }
+ 
 
-    /**
-     * Stops the clock
-     */
     stopClock() {
         clearInterval(this.clock);
-    }
-    Push(operand){
-        this.reg[SP] --;
-        this.poke(this.reg[SP], this.reg[operand]);
     };
-
-    Pop(operand) {
-        this.reg[SP] = this.ram.read(this.reg[SP])
-        this.reg[SP] ++;
-    };
-
-
+    
     /**
      * ALU functionality
      *
@@ -123,22 +114,40 @@ class CPU {
                 this.PC += 1;
                 break;
 
-            case 
+            case PUSH:
+                this.pushValue(this.reg[operandA]);
+                this.PC += 2;
+                break;
+            
+            case POP:
+                this.popValue(this.reg[operandA]);
+                this.PC += 2;
+                break;
  
-        // !!! IMPLEMENT ME
+            case CALL:
+                this.pushValue(this.PC + 2);
+                this.PC = this.reg[operandA];
+                break;
 
-        // Increment the PC register to go to the next instruction. Instructions
-        // can be 1, 2, or 3 bytes long. Hint: the high 2 bits of the
-        // instruction byte tells you how many bytes follow the instruction byte
-        // for any particular instruction.
+            case RET:
+                this.PC = this.popValue();
+                break;
+
+            default: 
+                break;
+
+
+        };
         
-
-\
-    //         +    POP(operand) {
-    //         +        this.reg[operand] = this.ram.read(this.SP);
-    //         +        this.SP++;
-
-        // !!! IMPLEMENT ME
+    }
+    pushValue(operandA) {
+        this.reg[SP] --;
+        return this.ram.write(this.reg[SP], operandA)
+        };
+    
+    popValue() {
+        this.reg[SP] = this.ram.read(this.reg[SP])
+        return this.reg[SP] ++;
     }
 }
 
