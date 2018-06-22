@@ -15,7 +15,7 @@
  const JEQ = 0b01010001;
  const JMP = 0b01010000;
  const JNE = 0b01010010;
- 
+
 let SP = 0x07;
 // let IS = 0x06;
 // let IM = 0x05;
@@ -101,7 +101,7 @@ class CPU {
 
         // !!! IMPLEMENT ME
         const IR = this.ram.read(this.PC);
-
+        console.log(`${this.PC}: ${IR.toString(2)}`);
     
         // Get the two bytes in memory _after_ the PC in case the instruction
         // needs them.
@@ -116,7 +116,7 @@ class CPU {
                 break;
             
             case PRN:
-                console.log(this.reg);
+                console.log(this.reg[operandA]);
                 this.PC += 2;
                 break;
 
